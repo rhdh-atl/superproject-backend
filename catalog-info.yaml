@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: superproject-poi-backend-app-dev
+  annotations:
+    argocd/app-name: superproject-poi-backend-app-dev
+    backstage.io/kubernetes-id: superproject-poi-backend-app
+    backstage.io/kubernetes-namespace: superproject
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhdh-atl/superproject-backend
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.j0i9yf30.eastus2.aroapp.io/dev-pipelines/ns/superproject/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.j0i9yf30.eastus2.aroapp.io/k8s/ns/superproject/deployments/superproject-poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.j0i9yf30.eastus2.aroapp.io/#https://github.com/rhdh-atl/superproject-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:default/imntreal"
+  system: workshop-system-superproject
+  providesApis:
+    - backend-api-superproject
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-superproject
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:default/imntreal"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-superproject
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: http://superproject-poi-backend-app-superproject.apps.j0i9yf30.eastus2.aroapp.io/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/rhdh-atl/superproject-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:default/imntreal"
+  system: workshop-system-superproject
+  definition:
+    $text: https://github.com/rhdh-atl/superproject-backend/tree/main/src/main/resources/META-INF/openapi.yaml
